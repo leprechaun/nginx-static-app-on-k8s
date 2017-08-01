@@ -28,10 +28,18 @@ node('master') {
 
       "nested": {
         stage("nested one"){
-          echo "nested 1"
+          stage("nested one one"){
+            echo "nested one one"
+          }
+          stage("nested one two"){
+            echo "nested one two"
+          }
+
         }
         stage("nested two"){
-          echo "nested 2"
+          stage("Nested two one"){
+            echo "nested two one"
+          }
         }
 
       }
