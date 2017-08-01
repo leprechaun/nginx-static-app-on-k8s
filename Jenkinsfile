@@ -1,6 +1,6 @@
 stage('Test') {
     parallel linux: {
-        node('any') {
+        node('master') {
             checkout scm
             try {
                 echo 'make check'
