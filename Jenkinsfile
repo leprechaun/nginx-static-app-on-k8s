@@ -1,5 +1,8 @@
+#!groovy
 node('master') {
-  checkout scm
+  stage("Checkout") {
+    checkout scm
+  }
 
   stage("Sanity") {
     parallel(
@@ -28,5 +31,9 @@ node('master') {
         echo 'hello world'
       }
     )
+  }
+
+  stage("Done") {
+    echo "done"
   }
 }
