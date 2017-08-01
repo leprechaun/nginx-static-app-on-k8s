@@ -52,7 +52,12 @@ node('master') {
     stage("nested three one"){
       parallel(
         "in nested one": {
-          echo "in nested one"
+          stage("nested three parallel one"){
+            echo "nested three parallel one"
+          }
+          stage("nested three parallel two"){
+            echo "nested three parallel two"
+          }
         },
         "in nested two": {
           echo "in nested one"
