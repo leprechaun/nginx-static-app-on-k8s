@@ -45,11 +45,11 @@ node('master') {
       }
     )
 
-    stage("nested one"){
-      stage("nested one one"){
+    stage("nested three"){
+      stage("nested three one"){
         echo "nested one one"
       }
-      stage("nested one two"){
+      stage("nested three two"){
         echo "nested one two"
       }
 
