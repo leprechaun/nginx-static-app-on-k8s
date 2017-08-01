@@ -70,7 +70,6 @@ node('master') {
 
   }
 
-
   stage("Done") {
     echo "done"
   }
