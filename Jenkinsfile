@@ -18,17 +18,22 @@ node('master') {
 
   stage('Test') {
     parallel(
-        "one thing": {
-        try {
-          echo 'make check'
-        }
-        finally {
-          echo 'done'
-        }
+      "one thing": {
+        echo "one thing"
       },
 
       "another thing": {
         echo 'hello world'
+      },
+
+      "nested": {
+        stage("nested one"){
+          echo "nested 1"
+        }
+        stage("nested two"){
+          echo "nested 2"
+        }
+
       }
     )
   }
