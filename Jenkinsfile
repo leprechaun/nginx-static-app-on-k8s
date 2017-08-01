@@ -44,6 +44,17 @@ node('master') {
 
       }
     )
+
+    stage("nested one"){
+      stage("nested one one"){
+        echo "nested one one"
+      }
+      stage("nested one two"){
+        echo "nested one two"
+      }
+
+    }
+
   }
 
   stage("Done") {
