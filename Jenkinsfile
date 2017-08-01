@@ -1,13 +1,19 @@
 node('master') {
+    checkout scm
     stage('Test') {
-        parallel linux: {
-            checkout scm
-            try {
-                echo 'make check'
-            }
-            finally {
-                echo 'done'
-            }
-        }
+        parallel(
+            "one thing": {
+                try {
+                    echo 'make check'
+                }
+                finally {
+                    echo 'done'
+                }
+            },
+
+           "another thing": {
+               echo 'hello world'
+           }
+        )
     }
 }
