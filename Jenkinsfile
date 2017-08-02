@@ -33,6 +33,10 @@ node('master') {
     )
   }
 
+  stage("Build Image") {
+    echo "Trigger Image Build"
+  }
+
   stage("Trigger Deploy to Sandbox") {
     echo "Trigger Deploy to Sandbox"
   }
