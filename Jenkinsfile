@@ -6,11 +6,11 @@ node('master') {
 
   stage("Sanity") {
     parallel(
-      "one thing": {
-        echo "hi"
+      "Commiter Identity": {
+        echo "Email should match .*@ktaxa.com"
       },
 
-      "another thing": {
+      "Another step?": {
         echo 'hello world'
       }
     )
@@ -18,56 +18,23 @@ node('master') {
 
   stage('Test') {
     parallel(
-      "one thing": {
-        echo "one thing"
+      "Unit Tests": {
+        echo "Unit"
       },
 
-      "another thing": {
-        echo 'hello world'
+      "Functional Tests": {
+        echo 'Functional'
       },
 
-      "nested": {
-        stage("nested one"){
-          stage("nested one one"){
-            echo "nested one one"
-          }
-          stage("nested one two"){
-            echo "nested one two"
-          }
-
-        }
-        stage("nested two"){
-          stage("Nested two one"){
-            echo "nested two one"
-          }
-        }
-
+      "Some Other Tests": {
+        echo 'Other'
       }
+
     )
-
-
   }
 
-  stage("nested three"){
-    stage("nested three one"){
-      parallel(
-        "in nested one": {
-          stage("nested three parallel one"){
-            echo "nested three parallel one"
-          }
-          stage("nested three parallel two"){
-            echo "nested three parallel two"
-          }
-        },
-        "in nested two": {
-          echo "in nested one"
-        }
-      )
-    }
-    stage("nested three two"){
-      echo "nested one two"
-    }
-
+  stage("Trigger Deploy to Sandbox") {
+    echo "Trigger Deploy to Sandbox"
   }
 
   stage("Done") {
