@@ -19,11 +19,23 @@ node('master') {
   stage('Test') {
     parallel(
       "Unit Tests": {
-        echo "Unit"
+        stage("Run Tests") {
+          echo "Run"
+        }
+
+        stage("Coverage") {
+          echo "Inspect"
+        }
       },
 
       "Functional Tests": {
-        echo 'Functional'
+        stage("Run Tests") {
+          echo "Run"
+        }
+
+        stage("Coverage") {
+          echo "Inspect"
+        }
       },
 
       "Some Other Tests": {
