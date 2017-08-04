@@ -1,4 +1,6 @@
 pipeline {
+  def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+
   agent any
 
   stages {
@@ -39,7 +41,10 @@ pipeline {
       steps {
         parallel(
           "leprechaun-jenkins-blue-test": {
-            openshiftBuild(bldCfg: 'image-leprechaun-jenkins-blue-test', showBuildLogs: 'true')
+            openshiftBuild(
+              bldCfg: 'image-leprechaun-jenkins-blue-test',
+              showBuildLogs: 'true'
+            )
           }
         )
       }
