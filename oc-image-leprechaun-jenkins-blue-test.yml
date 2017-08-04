@@ -1,0 +1,15 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "image-leprechaun-jenkins-blue-test"
+spec:
+  source:
+    type: Git
+    git:
+      uri: "https://github.com/leprechaun/jenkins-blue-test"
+  strategy:
+    type: Docker
+  output:
+    to:
+      kind: "ImageStreamTag"
+      name: "image-leprechaun-jenkins-blue-test"
