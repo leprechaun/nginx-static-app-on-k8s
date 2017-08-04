@@ -25,7 +25,7 @@ pipeline {
             echo 'done'
           },
           "Urine Tests": {
-            echo "done"
+            sh "cat Jenkinsfile"
           }
         )
       }
