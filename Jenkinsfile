@@ -44,18 +44,18 @@ pipeline {
           "leprechaun-jenkins-blue-test": {
             script {
               def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-              echo gitCommit
+              def shortCommit = gitCommit.take(8)
               openshiftBuild(
                 bldCfg: 'image-leprechaun-jenkins-blue-test',
                 showBuildLogs: 'true',
-                commit: gitCommit
+                commit: shortCommit
               )
 
               openshiftTag(
                 sourceStream: 'leprechaun-jenkins-blue-test',
                 sourceTag: 'latest',
                 destinationStream: 'leprechaun-jenkins-blue-test',
-                destinationTag: gitCommit
+                destinationTag: shortCommit
               )
             }
           }
