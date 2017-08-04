@@ -51,8 +51,13 @@ pipeline {
                 commit: gitCommit
               )
 
+              openshiftTag(
+                sourceStream: 'leprechaun-jenkins-blue-test',
+                sourceTag: 'latest',
+                destinationStream: 'leprechaun-jenkins-blue-test',
+                destinationTag: gitCommit
+              )
             }
-
           }
         )
       }
