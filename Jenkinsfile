@@ -10,6 +10,10 @@ pipeline {
           },
           "Dunno": {
             echo 'done'
+          },
+
+          "BuildConfigs": {
+            sh "oc get bc"
           }
         )
       }
