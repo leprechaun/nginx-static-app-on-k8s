@@ -10,10 +10,6 @@ pipeline {
             //gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             //gitCommit = sh "git rev-parse HEAD"
             sh "git rev-parse HEAD"
-            script {
-              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-              echo gitCommit
-            }
           },
           "Dunno": {
             echo 'done'
@@ -46,10 +42,16 @@ pipeline {
       steps {
         parallel(
           "leprechaun-jenkins-blue-test": {
-            openshiftBuild(
-              bldCfg: 'image-leprechaun-jenkins-blue-test',
-              showBuildLogs: 'true'
-            )
+            script {
+              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              echo gitCommit
+              openshiftBuild(
+                bldCfg: 'image-leprechaun-jenkins-blue-test',
+                showBuildLogs: 'true'
+              )
+
+            }
+
           }
         )
       }
