@@ -2,20 +2,34 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
+        stage('Verifications') {
+            parallel() {
+              "test one": {
+                echo "hello world"
+              },
+
+              "test two": {
+                echo "hello world"
+              }
             }
         }
-        stage('Test') {
+
+        stage('Run Tests') {
             steps {
                 echo 'Testing..'
             }
         }
-        stage('Deploy') {
+        stage('Build') {
             steps {
                 echo 'Deploying....'
             }
         }
+
+        stage('Trigger Sandbox Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+
     }
 }
