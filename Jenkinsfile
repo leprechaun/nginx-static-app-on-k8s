@@ -1,59 +1,21 @@
-#!groovy
-node('master') {
-  stage("Checkout") {
-    checkout scm
-  }
+pipeline {
+    agent any
 
-  stage("Sanity") {
-    parallel(
-      "Commiter Identity": {
-        echo "Email should match .*@ktaxa.com"
-      },
-
-      "Another step?": {
-        echo 'hello world'
-      }
-    )
-  }
-
-  stage('Test') {
-    parallel(
-      "Unit Tests": {
-        stage("Run Tests") {
-          echo "Run"
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
         }
-
-        stage("Coverage") {
-          echo "Inspect"
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
         }
-      },
-
-      "Functional Tests": {
-        stage("Run Tests") {
-          echo "Run"
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
         }
-
-        stage("Coverage") {
-          echo "Inspect"
-        }
-      },
-
-      "Some Other Tests": {
-        echo 'Other'
-      }
-
-    )
-  }
-
-  stage("Build Image") {
-    echo "Trigger Image Build"
-  }
-
-  stage("Trigger Deploy to Sandbox") {
-    echo "Trigger Deploy to Sandbox"
-  }
-
-  stage("Done") {
-    echo "done"
-  }
+    }
 }
