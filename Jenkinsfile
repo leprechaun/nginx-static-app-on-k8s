@@ -1,35 +1,18 @@
 pipeline {
-    agent any
+  agent any
 
-    stages {
-        stage('Verifications') {
-            parallel(
-              "test one": {
-                echo "hello world"
+  stages {
+    stage('Build') {
+      steps {
+        parallel (
+              "Windows" : {
+                  echo 'done'
               },
-
-              "test two": {
-                echo "hello world"
+              "Linux" : {
+                  echo 'done'
               }
-            )
-        }
-
-        stage('Run Tests') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Build') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-
-        stage('Trigger Sandbox Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-
+        )
+      }
     }
+  }
 }
