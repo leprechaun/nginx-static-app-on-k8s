@@ -39,7 +39,7 @@ pipeline {
       steps {
         parallel(
           "leprechaun-jenkins-blue-test": {
-            openshiftBuild(bldCfg: 'leprechaun-jenkins-blue-test', showBuildLogs: 'true')
+            openshiftBuild(bldCfg: 'image-leprechaun-jenkins-blue-test', showBuildLogs: 'true')
           }
         )
       }
