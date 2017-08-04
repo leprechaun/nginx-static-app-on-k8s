@@ -1,5 +1,4 @@
 pipeline {
-  def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
   agent any
 
@@ -8,6 +7,7 @@ pipeline {
       steps {
         parallel (
           "Commit message format": {
+            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             echo 'done'
           },
           "Dunno": {
