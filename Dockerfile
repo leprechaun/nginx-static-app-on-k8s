@@ -1,1 +1,1 @@
-FROM lunik/openshift-nginx
+FROM nginx:alpine
