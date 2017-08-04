@@ -30,5 +30,15 @@ pipeline {
         )
       }
     }
+
+    stage("Build Images") {
+      steps {
+        parallel(
+          "leprechaun-jenkins-blue-test": {
+            openshiftBuild(buildConfig: 'leprechaun-jenkins-blue-test', showBuildLogs: 'true')
+          }
+        )
+      }
+    }
   }
 }
