@@ -47,7 +47,8 @@ pipeline {
               echo gitCommit
               openshiftBuild(
                 bldCfg: 'image-leprechaun-jenkins-blue-test',
-                showBuildLogs: 'true'
+                showBuildLogs: 'true',
+                commit: gitCommit
               )
 
             }
