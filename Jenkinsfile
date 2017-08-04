@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         stage('Verifications') {
-            parallel() {
+            parallel(
               "test one": {
                 echo "hello world"
               },
@@ -11,7 +11,7 @@ pipeline {
               "test two": {
                 echo "hello world"
               }
-            }
+            )
         }
 
         stage('Run Tests') {
