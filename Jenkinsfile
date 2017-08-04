@@ -9,7 +9,7 @@ pipeline {
           "Commit message format": {
             //gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             //gitCommit = sh "git rev-parse HEAD"
-            gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            sh "git rev-parse HEAD"
           },
           "Dunno": {
             echo 'done'
