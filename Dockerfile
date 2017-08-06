@@ -6,8 +6,8 @@ RUN mkdir -p /var/cache/nginx/fastcgi_temp && chgrp 0 /var/cache/nginx/fastcgi_t
 RUN mkdir -p /var/cache/nginx/uwsgi_temp && chgrp 0 /var/cache/nginx/uwsgi_temp
 RUN mkdir -p /var/cache/nginx/scgi_temp && chgrp 0 /var/cache/nginx/scgi_temp
 
-# Openshift "magically" drops privs for us from the get go
+# More openshift stuff
 RUN sed -i -e 's/user  nginx;/#user nginx;/g' /etc/nginx/nginx.conf
-
-# So listen 80 won't work either
 RUN sed -i -e 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
+RUN touch /var/run/nginx.pid && chgrp 0 /var/run/nginx.pid
+
