@@ -9,7 +9,7 @@ RUN mkdir -p /var/cache/nginx/scgi_temp && chgrp 0 /var/cache/nginx/scgi_temp
 # More openshift stuff
 RUN sed -i -e 's/user  nginx;/#user nginx;/g' /etc/nginx/nginx.conf
 RUN sed -i -e 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
-RUN sed -i -e 's:/var/run/nginx.pid:/tmp/nginx.pid/g' /etc/nginx/conf.d/default.conf
+RUN sed -i -e 's:/var/run/nginx.pid:/tmp/nginx.pid:g' /etc/nginx/conf.d/default.conf
 RUN chgrp -R 0 /var/run/
 RUN chmod -R 777 /var/run
 
