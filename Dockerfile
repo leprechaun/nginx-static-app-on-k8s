@@ -17,3 +17,5 @@ ADD index.html /usr/share/nginx/html/index.html
 RUN sed -i -e "s/#DATE#/$(date)/g" /usr/share/nginx/html/index.html
 
 CMD whoami && nginx -g daemon off;
+
+EXPOSE 8080
