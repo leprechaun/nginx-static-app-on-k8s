@@ -13,3 +13,5 @@ RUN touch /var/run/nginx.pid && chgrp 0 /var/run/nginx.pid
 RUN chgrp -R 0 /var/run/
 RUN chmod -R 777 /var/run/
 
+ADD index.html /usr/share/nginx/html/index.html
+RUN sed -i -e "s/#DATE#/$(date)/g" /usr/share/nginx/html/index.html
