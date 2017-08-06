@@ -1,5 +1,5 @@
 FROM nginx:alpine
 
-RUN chgrp 0 /var/cache/nginx/client_temp
+RUN mkdir /var/cache/nginx/client_temp && chgrp 0 /var/cache/nginx/client_tmp
 
 USER default
