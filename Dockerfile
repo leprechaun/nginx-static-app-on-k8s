@@ -11,5 +11,5 @@ RUN sed -i -e 's/user  nginx;/#user nginx;/g' /etc/nginx/nginx.conf
 RUN sed -i -e 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
 RUN touch /var/run/nginx.pid && chgrp 0 /var/run/nginx.pid
 RUN chgrp -R 0 /var/run/
-RUN chmod 666 /var/run/
+RUN chmod -R 777 /var/run/
 
