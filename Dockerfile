@@ -10,4 +10,5 @@ RUN mkdir -p /var/cache/nginx/scgi_temp && chgrp 0 /var/cache/nginx/scgi_temp
 RUN sed -i -e 's/user  nginx;/#user nginx;/g' /etc/nginx/nginx.conf
 RUN sed -i -e 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
 RUN touch /var/run/nginx.pid && chgrp 0 /var/run/nginx.pid
+RUN chgrp -R 0 /var/run/
 
