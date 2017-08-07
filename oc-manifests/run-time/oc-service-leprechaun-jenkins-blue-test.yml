@@ -10,6 +10,6 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    name: leprechaun-jenkins-blue-test
+    deploymentconfig: leprechaun-jenkins-blue-test
   type: ClusterIP
   sessionAffinity: None
