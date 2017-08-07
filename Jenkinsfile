@@ -89,6 +89,8 @@ pipeline {
             }
           }
         )
+
+        sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
       }
     }
   }
