@@ -69,6 +69,13 @@ pipeline {
       }
     }
 
+    stage("Apply OC Run-Time things") {
+      steps {
+        sh "oc apply -f oc-manifests/run-time/*yml"
+      }
+    }
+
+
     stage("Deploy: Testing ENV") {
       steps {
         parallel(
