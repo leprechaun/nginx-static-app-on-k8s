@@ -46,26 +46,22 @@ pipeline {
 
     stage("Build Images") {
       steps {
-        parallel(
-          "leprechaun-jenkins-blue-test": {
-            script {
-              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-              def shortCommit = gitCommit.take(8)
-              openshiftBuild(
-                bldCfg: 'image-leprechaun-jenkins-blue-test',
-                showBuildLogs: 'true',
-                commit: shortCommit
-              )
+        script {
+          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+          def shortCommit = gitCommit.take(8)
+          openshiftBuild(
+            bldCfg: 'image-leprechaun-jenkins-blue-test',
+            showBuildLogs: 'true',
+            commit: shortCommit
+          )
 
-              openshiftTag(
-                sourceStream: 'leprechaun-jenkins-blue-test',
-                sourceTag: 'latest',
-                destinationStream: 'leprechaun-jenkins-blue-test',
-                destinationTag: shortCommit
-              )
-            }
-          }
-        )
+          openshiftTag(
+            sourceStream: 'leprechaun-jenkins-blue-test',
+            sourceTag: 'latest',
+            destinationStream: 'leprechaun-jenkins-blue-test',
+            destinationTag: shortCommit
+          )
+        }
       }
     }
 
@@ -78,17 +74,13 @@ pipeline {
 
     stage("Deploy: Testing ENV") {
       steps {
-        parallel(
-          "deploy": {
-            script {
-              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-              def shortCommit = gitCommit.take(8)
-              openshiftDeploy(
-                depCfg: 'leprechaun-jenkins-blue-test'
-              )
-            }
-          }
-        )
+        script {
+          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+          def shortCommit = gitCommit.take(8)
+          openshiftDeploy(
+            depCfg: 'leprechaun-jenkins-blue-test'
+          )
+        }
       }
     }
 
