@@ -3,6 +3,12 @@ pipeline {
   agent any
 
   stages {
+    stage("Apply OC Build-Time things") {
+      steps {
+        sh "oc apply -f oc-manifests/build-time/*yml"
+      }
+    }
+
     stage('Sanity Checks') {
       steps {
         parallel (
