@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage("Apply OC Build-Time things") {
       steps {
-        sh "oc apply -f oc-manifests/build-time/*yml"
+        sh "oc apply -f oc-manifests/build-time/"
       }
     }
 
@@ -71,7 +71,7 @@ pipeline {
 
     stage("Apply OC Run-Time things") {
       steps {
-        sh "oc apply -f oc-manifests/run-time/*yml"
+        sh "oc apply -f oc-manifests/run-time/"
       }
     }
 
