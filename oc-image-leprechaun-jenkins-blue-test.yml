@@ -9,6 +9,8 @@ spec:
       uri: "https://github.com/leprechaun/jenkins-blue-test"
   strategy:
     type: Docker
+    dockerStragegy:
+      noCache: true
   output:
     to:
       kind: "ImageStreamTag"
