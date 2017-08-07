@@ -62,5 +62,22 @@ pipeline {
         )
       }
     }
+
+    stage("Deploy: Testing ENV") {
+      steps {
+        parallel(
+          "deploy": {
+            script {
+              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              def shortCommit = gitCommit.take(8)
+              openshiftDeploy(
+                verbose: true,
+                depCfg: 'leprechaun-jenkins-blue-test'
+              )
+            }
+          }
+        )
+      }
+    }
   }
 }
