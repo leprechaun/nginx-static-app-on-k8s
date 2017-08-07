@@ -13,8 +13,6 @@ pipeline {
       steps {
         parallel (
           "Commit message format": {
-            //gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-            //gitCommit = sh "git rev-parse HEAD"
             sh "git rev-parse HEAD"
           },
           "Dunno": {
@@ -71,7 +69,6 @@ pipeline {
       }
     }
 
-
     stage("Deploy: Testing ENV") {
       steps {
         script {
@@ -93,7 +90,6 @@ pipeline {
           "curl2": {
             sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
           }
-
         )
       }
     }
