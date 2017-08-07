@@ -90,7 +90,16 @@ pipeline {
           }
         )
 
-        sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
+      }
+    }
+
+    stage("Verify: Testing ENV") {
+      steps {
+        parallel(
+          "curl": {
+            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
+          }
+        )
       }
     }
   }
