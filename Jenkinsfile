@@ -85,10 +85,10 @@ pipeline {
       steps {
         parallel(
           "curl1": {
-            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
+            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.100.nip.io/"
           },
           "curl2": {
-            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
+            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.100.nip.io/"
           }
         )
       }
