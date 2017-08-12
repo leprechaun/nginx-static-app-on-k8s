@@ -15,8 +15,8 @@ spec:
       maxSurge: 25%
   replicas: 1
   selector:
-    app: nginx
-    deploymentconfig: nginx
+    app: nginx-static-app
+    deploymentconfig: nginx-static-app
   template:
     metadata:
       creationTimestamp: null
