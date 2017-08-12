@@ -2,20 +2,11 @@ pipeline {
 
   agent none
 
-    stage('ASDTests') {
+  stages {
+    stage("Included steps") {
       agent any
       steps {
-        parallel (
-          "Unit Tests": {
-            echo 'done'
-          },
-          "Function Tests": {
-            echo 'done'
-          },
-          "Urine Tests": {
-            sh "cat Jenkinsfile"
-          }
-        )
+        echo "hello world"
       }
     }
   }
