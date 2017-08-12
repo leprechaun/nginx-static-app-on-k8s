@@ -74,7 +74,7 @@ pipeline {
     stage("Apply OC Run-Time things") {
       agent any
       steps {
-        jobDsl targets: 'TestJenkinsfile'
+        jobDsl targets: './TestJenkinsfile'
       }
     }
 
