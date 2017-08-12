@@ -1,8 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: leprechaun-jenkins-blue-test
-  namespace: test-project
+  name: nginx
 spec:
   ports:
     - name: web
@@ -10,6 +9,6 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    deploymentconfig: leprechaun-jenkins-blue-test
+    deploymentconfig: nginx
   type: ClusterIP
   sessionAffinity: None
