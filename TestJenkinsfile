@@ -1,0 +1,22 @@
+pipeline {
+
+  agent none
+
+    stage('ASDTests') {
+      agent any
+      steps {
+        parallel (
+          "Unit Tests": {
+            echo 'done'
+          },
+          "Function Tests": {
+            echo 'done'
+          },
+          "Urine Tests": {
+            sh "cat Jenkinsfile"
+          }
+        )
+      }
+    }
+  }
+}

@@ -70,6 +70,16 @@ pipeline {
       }
     }
 
+
+    stage("Apply OC Run-Time things") {
+      agent any
+      steps {
+        jobDsl targets: 'TestJenkinsfile'
+      }
+    }
+
+
+
     stage("Confirm Deployment") {
       agent none
       steps {
