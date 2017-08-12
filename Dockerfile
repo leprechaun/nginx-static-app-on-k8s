@@ -1,21 +1,13 @@
-FROM nginx:alpine
+FROM 172.30.1.1:5000/my-project/nginx
 
-RUN mkdir -p /var/cache/nginx/client_temp && chgrp 0 /var/cache/nginx/client_temp
-RUN mkdir -p /var/cache/nginx/proxy_temp && chgrp 0 /var/cache/nginx/proxy_temp
-RUN mkdir -p /var/cache/nginx/fastcgi_temp && chgrp 0 /var/cache/nginx/fastcgi_temp
-RUN mkdir -p /var/cache/nginx/uwsgi_temp && chgrp 0 /var/cache/nginx/uwsgi_temp
-RUN mkdir -p /var/cache/nginx/scgi_temp && chgrp 0 /var/cache/nginx/scgi_temp
+ADD bootstrap.sh /usr/local/bin/bootstrap
+RUN chmod 755 /usr/local/bin/bootstrap
 
-# More openshift stuff
-RUN sed -i -e 's/user  nginx;/#user nginx;/g' /etc/nginx/nginx.conf
-RUN sed -i -e 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
-RUN sed -i -e 's:/var/run/nginx.pid:/tmp/nginx.pid:g' /etc/nginx/nginx.conf
-RUN chgrp -R 0 /var/run/
-RUN chmod -R 777 /var/run
 
 ADD index.html /usr/share/nginx/html/index.html
-RUN sed -i -e "s/#DATE#/$(date)/g" /usr/share/nginx/html/index.html
+ADD environment.gif /usr/share/nginx/html/images/environment.gif
 
-RUN env
+ENTRYPOINT ["bootstrap"]
+CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 8080

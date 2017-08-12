@@ -1,18 +1,17 @@
-<!DOCTYPE html>
 <html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>This image was built on #DATE#</p>
-<p><em>Thank you for using nginx.</em></p>
-</body>
+	<head>
+		<title>Stuff running on OpenShift</title>
+	</head>
+	<body>
+		<h1>Some static application</h1>
+		<h2>with a slight twist of env vars</h2>
+		<img src="images/environment.gif" />
+		<h3>Current version</h3>
+		<pre>Hostname: ${HOSTNAME}
+OC BuildName: ${OPENSHIFT_BUILD_NAME}
+OC BuildNamespace: ${OPENSHIFT_BUILD_NAMESPACE}
+OC BuildSource: ${OPENSHIFT_BUILD_SOURCE}
+OC BuildCommit: ${OPENSHIFT_BUILD_COMMIT}
+</pre>
+	</body>
 </html>
