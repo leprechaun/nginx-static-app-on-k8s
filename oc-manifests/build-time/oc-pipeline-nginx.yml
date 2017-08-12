@@ -6,7 +6,7 @@ spec:
   source:
     type: Git
     git:
-      uri: https://github.com/leprechaun/jenkins-blue-test
+      uri: https://github.com/leprechaun/nginx-on-openshift
   strategy:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
