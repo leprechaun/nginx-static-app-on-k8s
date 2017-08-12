@@ -1,12 +1,15 @@
 pipeline {
-
   agent none
 
+  parameters {
+    string(name: 'environment', description: 'which environment to deploy to?')
+  }
+
   stages {
-    stage("Included steps") {
+    stage('Example') {
       agent any
       steps {
-        echo "hello world"
+        echo "Hello ${params.PERSON}"
       }
     }
   }
