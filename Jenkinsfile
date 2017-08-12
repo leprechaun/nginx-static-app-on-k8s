@@ -74,7 +74,7 @@ pipeline {
     stage("Inlcude ANother Jenkinsfile") {
       agent any
       steps {
-        jobDsl targets: './TestJenkinsfile'
+        jobDsl targets: 'TestJenkinsfile'
       }
     }
 
