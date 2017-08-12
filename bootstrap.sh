@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -x
 
 cd /usr/share/nginx/html/
 
