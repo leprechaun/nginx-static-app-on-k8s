@@ -48,15 +48,15 @@ pipeline {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           def shortCommit = gitCommit.take(8)
           openshiftBuild(
-            bldCfg: 'nginx-image',
+            bldCfg: 'nginx-static-app-image',
             showBuildLogs: 'true',
             commit: shortCommit
           )
 
           openshiftTag(
-            sourceStream: 'nginx',
+            sourceStream: 'nginx-static-app',
             sourceTag: 'latest',
-            destinationStream: 'nginx',
+            destinationStream: 'nginx-static-app',
             destinationTag: shortCommit
           )
         }
@@ -75,7 +75,7 @@ pipeline {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           def shortCommit = gitCommit.take(8)
           openshiftDeploy(
-            depCfg: 'nginx'
+            depCfg: 'nginx-static-app'
           )
         }
       }
@@ -85,10 +85,10 @@ pipeline {
       steps {
         parallel(
           "curl1": {
-            sh "curl -v http://nginx/"
+            sh "curl -v http://nginx-static-app/"
           },
           "curl2": {
-            sh "curl -v http://nginx/"
+            sh "curl -v http://nginx-static-app/"
           }
         )
       }
