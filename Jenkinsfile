@@ -3,9 +3,16 @@ pipeline {
   agent none
 
   stages {
+    stage("Stash all the things") {
+      agent any
+      steps {
+        stash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
+      }
+    }
     stage("Apply OC Build-Time things") {
       agent any
       steps {
+        unstash
         sh "oc apply -f oc-manifests/build-time/"
         echo "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
       }
@@ -16,11 +23,10 @@ pipeline {
       steps {
         parallel (
           "Commit message format": {
-            checkout scm
+            unstash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
             sh "git rev-parse HEAD"
           },
           "Dunno": {
-            checkout scm
             echo 'done'
           },
 
@@ -37,15 +43,12 @@ pipeline {
       steps {
         parallel (
           "Unit Tests": {
-            checkout scm
             echo 'done'
           },
           "Function Tests": {
-            checkout scm
             echo 'done'
           },
           "Urine Tests": {
-            checkout scm
             sh "cat Jenkinsfile"
           }
         )
@@ -55,7 +58,6 @@ pipeline {
     stage("Build Images") {
       agent any
       steps {
-        checkout scm
         build job: 'test-params', parameters: [string(name: 'environment', value: 'asdasd')]
         script {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -92,7 +94,6 @@ pipeline {
     stage("Apply OC Run-Time things") {
       agent any
       steps {
-        checkout scm
         sh "oc apply -f oc-manifests/run-time/"
       }
     }
@@ -100,7 +101,6 @@ pipeline {
     stage("Deploy: Testing ENV") {
       agent any
       steps {
-        checkout scm
         script {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           def shortCommit = gitCommit.take(8)
@@ -116,11 +116,9 @@ pipeline {
       steps {
         parallel(
           "curl1": {
-            checkout scm
             sh "curl -v http://nginx-static-app/"
           },
           "curl2": {
-            checkout scm
             sh "curl -v http://nginx-static-app/"
           }
         )
