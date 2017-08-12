@@ -73,8 +73,9 @@ pipeline {
     stage("Confirm Deployment") {
       agent none
       steps {
-        input message: "Continue?"
         milestone 1
+        input message: "Continue?"
+        milestone 2
       }
     }
 
