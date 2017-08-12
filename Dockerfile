@@ -8,6 +8,7 @@ RUN chmod 755 /usr/local/bin/bootstrap
 ADD index.html /usr/share/nginx/html/index.html
 ADD environment.gif /usr/share/nginx/html/images/environment.gif
 
+RUN make-writable /usr/share/nginx/html/
 RUN make-writable /usr/share/nginx/html/index.html
 
 ENTRYPOINT ["bootstrap"]
