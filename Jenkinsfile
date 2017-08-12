@@ -94,7 +94,8 @@ pipeline {
     stage("Apply OC Run-Time things") {
       agent any
       steps {
-        sh "oc apply -f oc-manifests/run-time/"
+        unstash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
+        sh "git rev-parse HEAD"
       }
     }
 
