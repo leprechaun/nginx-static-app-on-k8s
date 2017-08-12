@@ -48,10 +48,7 @@ pipeline {
     stage("Build Images") {
       agent any
       steps {
-        build("test-params", parameters: [
-          string(name: 'environment', value: 'osmething')
-        ])
-
+        build job: 'test-params', parameters: [string(name: 'environment', value: 'asdasd')]
         script {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           def shortCommit = gitCommit.take(8)
