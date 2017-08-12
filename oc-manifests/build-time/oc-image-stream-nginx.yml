@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    build: nginx-image
+  name: nginx

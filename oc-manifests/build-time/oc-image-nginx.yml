@@ -1,7 +1,7 @@
 kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
-  name: "image-leprechaun-jenkins-blue-test"
+  name: "nginx-image"
 spec:
   source:
     type: Git
@@ -14,4 +14,4 @@ spec:
   output:
     to:
       kind: "ImageStreamTag"
-      name: "leprechaun-jenkins-blue-test:latest"
+      name: "nginx:latest"
