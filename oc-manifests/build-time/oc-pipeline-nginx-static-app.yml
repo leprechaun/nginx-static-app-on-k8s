@@ -7,6 +7,7 @@ spec:
     type: Git
     git:
       uri: https://github.com/leprechaun/nginx-static-app-on-openshift
+  runPolicy: Parallel
   strategy:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
