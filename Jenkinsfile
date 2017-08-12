@@ -45,6 +45,13 @@ pipeline {
       }
     }
 
+    stage("Inlcude ANother Jenkinsfile") {
+      agent any
+      steps {
+        jobDsl targets: './TestJenkinsfile'
+      }
+    }
+
     stage("Build Images") {
       agent any
       steps {
@@ -69,16 +76,6 @@ pipeline {
         }
       }
     }
-
-
-    stage("Inlcude ANother Jenkinsfile") {
-      agent any
-      steps {
-        jobDsl targets: 'TestJenkinsfile'
-      }
-    }
-
-
 
     stage("Confirm Deployment") {
       agent none
