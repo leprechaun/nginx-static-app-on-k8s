@@ -11,6 +11,8 @@ ADD environment.gif /usr/share/nginx/html/images/environment.gif
 RUN make-writable /usr/share/nginx/html/
 RUN make-writable /usr/share/nginx/html/index.html
 
+ENV GIT_COMMIT=${GIT_COMMIT}
+
 ENTRYPOINT ["bootstrap"]
 CMD ["nginx", "-g", "daemon off;"]
 

@@ -50,7 +50,10 @@ pipeline {
           openshiftBuild(
             bldCfg: 'nginx-static-app-image',
             showBuildLogs: 'true',
-            commit: shortCommit
+            commit: shortCommit,
+            env : [
+              [ name : 'GIT_COMMIT', value : shortCommit ]
+            ]
           )
 
           openshiftTag(
