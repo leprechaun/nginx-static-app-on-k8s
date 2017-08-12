@@ -82,7 +82,6 @@ pipeline {
     stage("Confirm Deployment") {
       agent none
       steps {
-        checkout scm
         milestone 1
         input message: "Continue?"
         milestone 2
