@@ -1,12 +1,12 @@
 kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
-  name: nginx-pipeline
+  name: nginx-static-app-pipeline
 spec:
   source:
     type: Git
     git:
-      uri: https://github.com/leprechaun/nginx-on-openshift
+      uri: https://github.com/leprechaun/nginx-static-app-on-openshift
   strategy:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:

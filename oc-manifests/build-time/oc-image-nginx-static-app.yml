@@ -1,12 +1,12 @@
 kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
-  name: "nginx-image"
+  name: nginx-static-app-image
 spec:
   source:
     type: Git
     git:
-      uri: "https://github.com/leprechaun/nginx-on-openshift"
+      uri: https://github.com/leprechaun/nginx-static-app-on-openshift
   strategy:
     type: Docker
     dockerStragegy:
@@ -14,4 +14,4 @@ spec:
   output:
     to:
       kind: "ImageStreamTag"
-      name: "nginx:latest"
+      name: "nginx-static-app:latest"
