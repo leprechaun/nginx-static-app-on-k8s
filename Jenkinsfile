@@ -56,7 +56,7 @@ pipeline {
             env : [
               [ name : 'DEPLOY_BUILD_NUMBER', value : "${env.BUILD_NUMBER}" ],
               [ name : 'DEPLOY_GIT_COMMIT', value : shortCommit ],
-              [ name : 'DEPLOY_NAMESPACE', value : "sandbox" ]
+              [ name : 'DEPLOY_NAMESPACE', value : "my-project" ]
             ]
           )
         }
