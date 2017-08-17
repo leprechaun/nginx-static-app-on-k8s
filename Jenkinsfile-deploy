@@ -19,7 +19,7 @@ pipeline {
 
     stage("Apply the template") {
       steps {
-        sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
+        sh "oc process --param \"ROUTE_HOSTNAME=test.openshift.fscker.org\" nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
       }
     }
 
