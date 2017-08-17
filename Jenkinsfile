@@ -11,42 +11,6 @@ pipeline {
       }
     }
 
-/*
-    stage('Sanity Checks') {
-      steps {
-        parallel (
-          "Commit message format": {
-            sh "git rev-parse HEAD"
-          },
-          "Dunno": {
-            echo 'done'
-          },
-
-          "BuildConfigs": {
-            checkout scm
-            sh "oc get bc"
-          }
-        )
-      }
-    }
-
-    stage('Tests') {
-      steps {
-        parallel (
-          "Unit Tests": {
-            echo 'done'
-          },
-          "Function Tests": {
-            echo 'done'
-          },
-          "Urine Tests": {
-            sh "cat Jenkinsfile"
-          }
-        )
-      }
-    }
-*/
-
     stage("Build Images") {
       steps {
         script {
@@ -90,8 +54,9 @@ pipeline {
             showBuildLogs: 'true',
             commit: shortCommit,
             env : [
+              [ name : 'DEPLOY_BUILD_NUMBER', value : "${env.BUILD_NUMBER}" ],
               [ name : 'DEPLOY_GIT_COMMIT', value : shortCommit ],
-              [ name : 'DEPLOY_BUILD_NUMBER', value : "${env.BUILD_NUMBER}" ]
+              [ name : 'DEPLOY_NAMESPACE`', value : "sandbox" ]
             ]
           )
         }

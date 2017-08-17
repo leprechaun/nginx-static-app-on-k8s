@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage("Assert Parameters") {
       steps {
-        echo "Deploying: ${env.DEPLOY_GIT_COMMIT} - ${env.DEPLOY_BUILD_NUMBER}"
+        echo "Deploying: ${env.DEPLOY_GIT_COMMIT} - ${env.DEPLOY_BUILD_NUMBER} into ${env.DEPLOY_NAMESPACE}"
       }
     }
 
@@ -16,12 +16,17 @@ pipeline {
       }
     }
 
+    stage("Apply the template") {
+      steps {
+        sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
+      }
+    }
+
     /*
     stage("Deploy: Testing ENV") {
       steps {
         script {
-          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-          def shortCommit = gitCommit.take(8)
+          def shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
           openshiftDeploy(
             depCfg: 'nginx-static-app'
           )
