@@ -71,7 +71,7 @@ pipeline {
 
     stage("Generate run-time manifests") {
       steps {
-        sh "sed -e \"s/#BUILD_NUMBER#/123/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" -e \"s/#BUILD_DATE#/$(date +%Y%m%d-%H%M)/g\" oc-manifests/run-time/objects-template.yml | oc apply -f -"
+        sh "sed -e \"s/#BUILD_NUMBER#/123/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" -e \"s/#BUILD_DATE#/\$(date +%Y%m%d-%H%M)/g\" oc-manifests/run-time/objects-template.yml | oc apply -f -"
       }
     }
 
