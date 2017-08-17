@@ -1,0 +1,16 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: nginx-static-app-selenium-python-image
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/leprechaun/nginx-static-app-on-openshift
+    contextDir: ./e2e-test/
+  strategy:
+    type: Docker
+  output:
+    to:
+      kind: "ImageStreamTag"
+      name: "nginx-static-app-selenium-python:latest"

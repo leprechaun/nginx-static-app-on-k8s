@@ -13,25 +13,50 @@ pipeline {
 
     stage("Build Images") {
       steps {
-        script {
-          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-          def shortCommit = gitCommit.take(8)
-          openshiftBuild(
-            bldCfg: 'nginx-static-app-image',
-            showBuildLogs: 'true',
-            commit: shortCommit,
-            env : [
-              [ name : 'GIT_COMMIT', value : shortCommit ]
-            ]
-          )
+        parallel(
+          "Application image": {
+            script {
+              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              def shortCommit = gitCommit.take(8)
+              openshiftBuild(
+                bldCfg: 'nginx-static-app-image',
+                showBuildLogs: 'true',
+                commit: shortCommit,
+                env : [
+                  [ name : 'GIT_COMMIT', value : shortCommit ]
+                ]
+              )
 
-          openshiftTag(
-            sourceStream: 'nginx-static-app',
-            sourceTag: 'latest',
-            destinationStream: 'nginx-static-app',
-            destinationTag: shortCommit
-          )
-        }
+              openshiftTag(
+                sourceStream: 'nginx-static-app',
+                sourceTag: 'latest',
+                destinationStream: 'nginx-static-app',
+                destinationTag: shortCommit
+              )
+            }
+          },
+          "E2E Test image": {
+            script {
+              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              def shortCommit = gitCommit.take(8)
+              openshiftBuild(
+                bldCfg: 'nginx-static-app-selenium-python-image',
+                showBuildLogs: 'true',
+                commit: shortCommit,
+                env : [
+                  [ name : 'GIT_COMMIT', value : shortCommit ]
+                ]
+              )
+
+              openshiftTag(
+                sourceStream: 'nginx-static-app-selenium-python',
+                sourceTag: 'latest',
+                destinationStream: 'nginx-static-app-selenium-python',
+                destinationTag: shortCommit
+              )
+            }
+          }
+        )
       }
     }
 
