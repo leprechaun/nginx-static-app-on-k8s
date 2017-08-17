@@ -75,9 +75,7 @@ pipeline {
       steps {
         echo "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
         script {
-          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-          def shortCommit = gitCommit.take(8)
-          sh "env"
+          def shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
           sh "sed -e \"s/#BUILD_NUMBER#/${env.BUILD_NUMBER}/g\" -e \"s/#GIT_COMMIT#/${shortCommit}/g\" -e \"s/#BUILD_DATE#/\$(date +%Y%m%d-%H%M)/g\" oc-manifests/run-time/objects-template.yml | oc apply -f -"
         }
       }
