@@ -5,12 +5,13 @@ pipeline {
   stages {
     stage("Apply OC Build-Time things") {
       steps {
-        unstash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
-        sh "oc apply -f oc-manifests/build-time/"
         echo "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+        sh "env"
+        sh "oc apply -f oc-manifests/build-time/"
       }
     }
 
+/*
     stage('Sanity Checks') {
       steps {
         parallel (
@@ -44,6 +45,7 @@ pipeline {
         )
       }
     }
+*/
 
     stage("Build Images") {
       steps {
@@ -71,7 +73,13 @@ pipeline {
 
     stage("Generate run-time manifests") {
       steps {
-        sh "sed -e \"s/#BUILD_NUMBER#/123/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" -e \"s/#BUILD_DATE#/\$(date +%Y%m%d-%H%M)/g\" oc-manifests/run-time/objects-template.yml | oc apply -f -"
+        echo "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+        script {
+          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+          def shortCommit = gitCommit.take(8)
+          sh "env"
+          sh "sed -e \"s/#BUILD_NUMBER#/${env.BUILD_NUMBER}/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" -e \"s/#BUILD_DATE#/\$(date +%Y%m%d-%H%M)/g\" oc-manifests/run-time/objects-template.yml | oc apply -f -"
+        }
       }
     }
 
