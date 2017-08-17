@@ -81,6 +81,23 @@ pipeline {
       }
     }
 
+    stage("Trigger a build in Sandbox"){
+      steps{
+        script {
+          def shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
+          openshiftBuild(
+            bldCfg: 'nginx-static-app-deploy-pipeline',
+            showBuildLogs: 'true',
+            commit: shortCommit,
+            env : [
+              [ name : 'DEPLOY_GIT_COMMIT', value : shortCommit ],
+              [ name : 'DEPLOY_BUILD_NUMBER', value : "${env.BUILD_NUMBER}" ]
+            ]
+          )
+        }
+      }
+    }
+
     /*
     stage("Deploy: Testing ENV") {
       steps {
