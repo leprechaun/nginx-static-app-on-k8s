@@ -23,7 +23,8 @@ parameters:
   value: "#BUILD_NUMBER#"
 
 - description: Git commit
-  name: "#GIT_COMMIT#"
+  name: GIT_COMMIT
+  value: "#GIT_COMMIT#"
 
 - description: Route hostname
   name: ROUTE_HOSTNAME
