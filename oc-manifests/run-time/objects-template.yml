@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Template
+
+metadata:
+  name: nginx-static-app-template-#BUILD_NUMBER#-#GIT_COMMIT#
+  annotations:
+    description: Run-time objects for the nginx-static-app
+    iconClass: "icon-redis"
+    tags: "http,static"
+  labels:
+    app: nginx-static-app
+    build-number: "#BUILD_NUMBER#"
+    git-commit: "#GIT_COMMIT#"
+
+parameters:
+- description: Name of most resources
+  name: APPLICATION_NAME
+  value: nginx-static-app
+
+- description: Build number
+  name: BUILD_NUMBER
+  value: "#BUILD_NUMBER#"
+
+- description: Git commit
+  name: "#GIT_COMMIT#"
+
+- description: Route hostname
+  name: ROUTE_HOSTNAME
+
+objects:
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${APPLICATION_NAME}
+  spec:
+    host: ${ROUTE_HOSTNAME}
+    port:
+      targetPort: web
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}
+      weight: 100
+    wildcardPolicy: None
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APPLICATION_NAME}
+    labels:
+      application-name: ${APPLICATION_NAME}
+      git-commit: ${GIT_COMMIT}
+      build-number: ${BUILD_NUMBER}
+      stateful: "false"
+  spec:
+    ports:
+      - name: web
+        protocol: TCP
+        port: 80
+        targetPort: 8080
+    selector:
+      deploymentconfig: ${APPLICATION_NAME}
+    type: ClusterIP
+    sessionAffinity: None
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${APPLICATION_NAME}
+    labels:
+      application-name: ${APPLICATION_NAME}
+      git-commit: ${GIT_COMMIT}
+      build-number: ${BUILD_NUMBER}
+      stateful: "false"
+  spec:
+    strategy:
+      type: Rolling
+      rollingParams:
+        updatePeriodSeconds: 1
+        intervalSeconds: 1
+        timeoutSeconds: 600
+        maxUnavailable: 25%
+        maxSurge: 25%
+    replicas: 1
+    selector:
+      application-name: ${APPLICATION_NAME}
+      git-commit: ${GIT_COMMIT}
+      build-number: ${BUILD_NUMBER}
+      stateful: "false"
+    template:
+      metadata:
+        name: ${APPLICATION_NAME}
+        labels:
+          application-name: ${APPLICATION_NAME}
+          git-commit: ${GIT_COMMIT}
+          build-number: ${BUILD_NUMBER}
+          stateful: "false"
+      spec:
+        containers:
+          - name: nginx
+            image: >-
+              172.30.1.1:5000/my-project/nginx-static-app:${GIT_COMMIT}
+            ports:
+              - containerPort: 8080
+                protocol: TCP
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst

@@ -1,10 +1,9 @@
 pipeline {
 
-  agent none
+  agent any
 
   stages {
     stage("Stash all the things") {
-      agent any
       steps {
         stash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
       }
@@ -19,7 +18,6 @@ pipeline {
     }
 
     stage('Sanity Checks') {
-      agent any
       steps {
         parallel (
           "Commit message format": {
@@ -39,7 +37,6 @@ pipeline {
     }
 
     stage('Tests') {
-      agent any
       steps {
         parallel (
           "Unit Tests": {
@@ -56,7 +53,6 @@ pipeline {
     }
 
     stage("Build Images") {
-      agent any
       steps {
         script {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -80,26 +76,14 @@ pipeline {
       }
     }
 
-    stage("Confirm Deployment") {
-      agent none
+    stage("Generate run-time manifests") {
       steps {
-        milestone 1
-        input message: "Continue?"
-        milestone 2
+        sh "sed -e \"s/#BUILD_NUMBER#/123/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" oc-manifests/run-time/objects-template.yml"
       }
     }
 
-
-    stage("Apply OC Run-Time things") {
-      agent any
-      steps {
-        unstash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
-        sh "git rev-parse HEAD"
-      }
-    }
-
+    /*
     stage("Deploy: Testing ENV") {
-      agent any
       steps {
         script {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -112,7 +96,6 @@ pipeline {
     }
 
     stage("Verify: Testing ENV") {
-      agent any
       steps {
         parallel(
           "curl1": {
@@ -124,5 +107,6 @@ pipeline {
         )
       }
     }
+    */
   }
 }
