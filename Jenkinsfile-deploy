@@ -11,7 +11,7 @@ pipeline {
 
     stage("Template") {
       steps {
-        echo "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml"
+        sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml"
       }
     }
 
