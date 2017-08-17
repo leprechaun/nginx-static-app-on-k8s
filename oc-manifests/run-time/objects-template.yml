@@ -30,19 +30,19 @@ parameters:
   name: ROUTE_HOSTNAME
 
 objects:
-- apiVersion: v1
-  kind: Route
-  metadata:
-    name: ${APPLICATION_NAME}
-  spec:
-    host: ${ROUTE_HOSTNAME}
-    port:
-      targetPort: web
-    to:
-      kind: Service
-      name: ${APPLICATION_NAME}
-      weight: 100
-    wildcardPolicy: None
+#- apiVersion: v1
+#  kind: Route
+#  metadata:
+#    name: ${APPLICATION_NAME}
+#  spec:
+#    host: ${ROUTE_HOSTNAME}
+#    port:
+#      targetPort: web
+#    to:
+#      kind: Service
+#      name: ${APPLICATION_NAME}
+#      weight: 100
+#    wildcardPolicy: None
 
 - apiVersion: v1
   kind: Service
