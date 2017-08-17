@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage("Assert Parameters") {
       steps {
-        echo "Deploying: ${env.DEPLOY_GIT_COMMIT}" - ${env.DEPLOY_BUILD_NUMBER}"
+        echo "Deploying: ${env.DEPLOY_GIT_COMMIT} - ${env.DEPLOY_BUILD_NUMBER}"
       }
     }
     /*
