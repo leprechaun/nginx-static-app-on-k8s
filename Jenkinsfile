@@ -3,13 +3,7 @@ pipeline {
   agent any
 
   stages {
-    stage("Stash all the things") {
-      steps {
-        stash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
-      }
-    }
     stage("Apply OC Build-Time things") {
-      agent any
       steps {
         unstash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
         sh "oc apply -f oc-manifests/build-time/"
@@ -21,7 +15,6 @@ pipeline {
       steps {
         parallel (
           "Commit message format": {
-            unstash("${env.JOB_NAME}-${env.BUILD_NUMBER}")
             sh "git rev-parse HEAD"
           },
           "Dunno": {
@@ -78,7 +71,7 @@ pipeline {
 
     stage("Generate run-time manifests") {
       steps {
-        sh "sed -e \"s/#BUILD_NUMBER#/123/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" oc-manifests/run-time/objects-template.yml"
+        sh "sed -e \"s/#BUILD_NUMBER#/123/g\" -e \"s/#GIT_COMMIT#/deadbeef/g\" -e \"s/#BUILD_DATE#/$(date +%Y%m%d-%H%M)/g\" oc-manifests/run-time/objects-template.yml | oc apply -f -"
       }
     }
 

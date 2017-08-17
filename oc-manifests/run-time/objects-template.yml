@@ -11,6 +11,7 @@ metadata:
     app: nginx-static-app
     build-number: "#BUILD_NUMBER#"
     git-commit: "#GIT_COMMIT#"
+    build-date: "#BUILD_DATE#"
 
 parameters:
 - description: Name of most resources
