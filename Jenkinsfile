@@ -74,6 +74,8 @@ pipeline {
       steps{
         script {
           def shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
+          echo "${env.BUILD_NUMBER}"
+          echo shortCommit
           openshiftBuild(
             bldCfg: 'nginx-static-app-deploy-pipeline',
             showBuildLogs: 'true',
