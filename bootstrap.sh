@@ -9,5 +9,6 @@ sed -i -e "s:\${OPENSHIFT_BUILD_NAME}:${OPENSHIFT_BUILD_NAME}:g" index.html
 sed -i -e "s:\${OPENSHIFT_BUILD_NAMESPACE}:${OPENSHIFT_BUILD_NAMESPACE}:g" index.html
 sed -i -e "s#\${OPENSHIFT_BUILD_SOURCE}#${OPENSHIFT_BUILD_SOURCE}#g" index.html
 sed -i -e "s:\${OPENSHIFT_BUILD_COMMIT}:${OPENSHIFT_BUILD_COMMIT}:g" index.html
+sed -i -e "s:\${BUILD_NUMBER}:${BUILD_NUMBER}:g" index.html
 
 exec "${@}"

@@ -104,6 +104,9 @@ objects:
             ports:
               - containerPort: 8080
                 protocol: TCP
+            env:
+              - name: BUILD_NUMBER
+                value: ${BUILD_NUMBER}
         restartPolicy: Always
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirst
