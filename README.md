@@ -19,3 +19,5 @@ If the build is succesful, I publish the template to openshift, using the app na
 Then, I trigger a deployment job in the dev environment. This job is useless without parameters and shouldn't be directly used (although it should fail fast if a mistake is made). This job takes the build number and git hash.
 
 It renders the template with the parameters (build number, git hash), and applies it to open shift in a specified namespace/project. Then I tail the ollout logs to make sure it actually works. Should that pass, we run a simple smoke test (curl, for simplicity sake), and then a selenium based test.
+
+This, with zero downtime, provided liveness and readiness probes are correctly configured.
