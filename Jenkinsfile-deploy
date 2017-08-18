@@ -3,57 +3,44 @@ pipeline {
   agent any
 
   stages {
-    stage("Assert Parameters") {
+    stage("Parameters") {
       steps {
         sh "oc projects"
         echo "Deploying: ${env.DEPLOY_GIT_COMMIT} - ${env.DEPLOY_BUILD_NUMBER} into ${env.DEPLOY_NAMESPACE}"
       }
     }
 
-    stage("Template") {
+    stage("Render Template") {
       steps {
         sh "oc get template nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml"
         sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml"
       }
     }
 
-    stage("Apply the template") {
+    stage("Apply Template") {
       steps {
         sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
         sh "oc rollout status --watch dc nginx-static-app"
       }
     }
 
-    stage("Tag the template as deployed") {
+    stage("Tag as deployed") {
       steps {
         sh "oc label template nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} deployed-${env.DEPLOY_NAMESPACE}=\$(date +%Y%m%d-%H%M)"
       }
     }
 
-    /*
-    stage("Deploy: Testing ENV") {
-      steps {
-        script {
-          def shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
-          openshiftDeploy(
-            depCfg: 'nginx-static-app'
-          )
-        }
-      }
-    }
-
-    stage("Verify: Testing ENV") {
+    stage("Smoke Test") {
       steps {
         parallel(
-          "curl1": {
+          "GET /": {
             sh "curl -v http://nginx-static-app/"
           },
-          "curl2": {
-            sh "curl -v http://nginx-static-app/"
+          "GET /blah": {
+            sh "curl -v http://nginx-static-app/?blah"
           }
         )
       }
     }
-    */
   }
 }
