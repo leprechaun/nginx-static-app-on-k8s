@@ -20,17 +20,14 @@ pipeline {
     stage("Apply Template") {
       steps {
         sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
+
+        # this will wait until it succeeds, or fails.
         sh "oc rollout status --watch dc nginx-static-app"
       }
     }
 
-    stage("Tag as deployed") {
-      steps {
-        sh "oc label template nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} deployed-${env.DEPLOY_NAMESPACE}=\$(date +%Y%m%d-%H%M)"
-      }
-    }
-
     stage("Smoke Test") {
+      # If this fails, how does one revert?
       steps {
         parallel(
           "GET /": {
@@ -40,6 +37,12 @@ pipeline {
             sh "curl -v http://nginx-static-app/?blah"
           }
         )
+      }
+    }
+
+    stage("Tag as deployed") {
+      steps {
+        sh "oc label template nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} deployed-${env.DEPLOY_NAMESPACE}=\$(date +%Y%m%d-%H%M)"
       }
     }
   }
