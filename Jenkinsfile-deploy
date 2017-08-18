@@ -21,7 +21,7 @@ pipeline {
       steps {
         sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
 
-        # this will wait until it succeeds, or fails.
+        // this will wait until it succeeds, or fails.
         sh "oc rollout status --watch dc nginx-static-app"
       }
     }
