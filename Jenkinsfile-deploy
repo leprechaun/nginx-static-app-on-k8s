@@ -20,6 +20,12 @@ pipeline {
     stage("Apply the template") {
       steps {
         sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
+        sh "oc rollout oc rollout status -w dc nginx-static-app"
+      }
+    }
+
+    stage("Tag the template as deployed") {
+      steps {
         sh "oc label template nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} deployed-${env.DEPLOY_NAMESPACE}=\$(date +%Y%m%d-%H%M)"
       }
     }
