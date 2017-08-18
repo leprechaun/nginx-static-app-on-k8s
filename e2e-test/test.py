@@ -28,6 +28,8 @@ def check_browser(browser):
   driver.get("http://" + os.environ["BASE_URL"])
   print("got the URL")
   assert "BuildCommit" in driver.page_source
+  assert "OC BuildNumber: " + str(os.environ["DEPLOY_BUILD_NUMBER"]) in driver.page_source
+  assert "OC BuildCommit: " + str(os.environ["DEPLOY_GIT_COMMIT"]) in driver.page_source
   driver.close()
   print("Browser %s checks out!" % browser)
 
