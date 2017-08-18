@@ -90,6 +90,15 @@ objects:
             env:
               - name: BUILD_NUMBER
                 value: ${BUILD_NUMBER}
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8080
+            readinessProbe:
+              httpGet:
+                path: /
+                port: 8080
+
         restartPolicy: Always
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirst
