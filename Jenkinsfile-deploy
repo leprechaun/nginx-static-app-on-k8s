@@ -37,6 +37,13 @@ pipeline {
       }
     }
 
+    stage("E2E Test") {
+      steps {
+        sh "oc run nginx-static-app-e2e-test-${env.DEPLOY_BUILD_NUMBER} -t --restart=Never --image=172.30.1.1:5000/my-project/nginx-static-app-selenium-python:${env.DEPLOY_GIT_COMMIT} --env BASE_URL=nginx-static-app
+      }
+
+    }
+
     stage("Tag as deployed") {
       steps {
         sh "oc label template nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} deployed-${env.DEPLOY_NAMESPACE}=\$(date +%Y%m%d-%H%M)"
