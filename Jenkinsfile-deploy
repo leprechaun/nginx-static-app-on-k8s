@@ -20,13 +20,11 @@ pipeline {
     stage("Apply Template") {
       steps {
         sh "oc process nginx-static-app-template-${env.DEPLOY_BUILD_NUMBER}-${env.DEPLOY_GIT_COMMIT} -o yaml | oc apply -n ${env.DEPLOY_NAMESPACE} -f -"
-
         sh "oc rollout status --watch dc nginx-static-app"
       }
     }
 
     stage("Smoke Test") {
-      # If this fails, how does one revert?
       steps {
         parallel(
           "GET /": {
