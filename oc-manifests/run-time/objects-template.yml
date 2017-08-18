@@ -65,7 +65,7 @@ objects:
         timeoutSeconds: 600
         maxUnavailable: 25%
         maxSurge: 25%
-    replicas: 1
+    replicas: 3
     selector:
       application-name: ${APPLICATION_NAME}
       git-commit: ${GIT_COMMIT}
