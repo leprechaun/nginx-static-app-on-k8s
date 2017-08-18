@@ -100,7 +100,7 @@ objects:
         containers:
           - name: nginx
             image: >-
-              172.30.1.1:5000/test-project/nginx-static-app:${GIT_COMMIT}
+              172.30.1.1:5000/my-project/nginx-static-app:${GIT_COMMIT}
             ports:
               - containerPort: 8080
                 protocol: TCP
