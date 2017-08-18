@@ -53,9 +53,9 @@ objects:
     name: ${APPLICATION_NAME}
     labels:
       application-name: ${APPLICATION_NAME}
-      git-commit: ${GIT_COMMIT}
-      build-number: ${BUILD_NUMBER}
-      stateful: "false"
+#      git-commit: ${GIT_COMMIT}
+#      build-number: ${BUILD_NUMBER}
+#      stateful: "false"
   spec:
     strategy:
       type: Rolling
