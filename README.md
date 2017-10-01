@@ -22,4 +22,4 @@ It renders the template with the parameters (build number, git hash), and applie
 
 This, with zero downtime, provided liveness and readiness probes are correctly configured.
 
-(bump)
+(bump!)
