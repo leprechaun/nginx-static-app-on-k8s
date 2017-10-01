@@ -1,104 +1,55 @@
-apiVersion: v1
-kind: Template
-
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: nginx-static-app-template-#BUILD_NUMBER#-#GIT_COMMIT#
+  name: nginx-static-app
+  namespace: kube-system
   annotations:
-    description: Run-time objects for the nginx-static-app
-    iconClass: "icon-redis"
-    tags: "http,static"
-  labels:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: nginx-static-app.kubernetes.fscker.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-static-app
+          servicePort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-static-app
+spec:
+  type: ClusterIP
+  ports:
+  - name: fluentd-forward
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
     app: nginx-static-app
-    build-number: "#BUILD_NUMBER#"
-    git-commit: "#GIT_COMMIT#"
-    build-date: "#BUILD_DATE#"
-
-parameters:
-- description: Name of most resources
-  name: APPLICATION_NAME
-  value: nginx-static-app
-
-- description: Build number
-  name: BUILD_NUMBER
-  value: "#BUILD_NUMBER#"
-
-- description: Git commit
-  name: GIT_COMMIT
-  value: "#GIT_COMMIT#"
-
-objects:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: ${APPLICATION_NAME}
-    labels:
-      application-name: ${APPLICATION_NAME}
-      git-commit: ${GIT_COMMIT}
-      build-number: ${BUILD_NUMBER}
-      stateful: "false"
-  spec:
-    ports:
-      - name: web
-        protocol: TCP
-        port: 80
-        targetPort: 8080
-    selector:
-      deploymentconfig: ${APPLICATION_NAME}
-    type: ClusterIP
-    sessionAffinity: None
-
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    name: ${APPLICATION_NAME}
-    labels:
-      application-name: ${APPLICATION_NAME}
-#      git-commit: ${GIT_COMMIT}
-#      build-number: ${BUILD_NUMBER}
-#      stateful: "false"
-  spec:
-    strategy:
-      type: Rolling
-      rollingParams:
-        updatePeriodSeconds: 1
-        intervalSeconds: 1
-        timeoutSeconds: 600
-        maxUnavailable: 25%
-        maxSurge: 25%
-    replicas: 3
-    selector:
-      application-name: ${APPLICATION_NAME}
-      git-commit: ${GIT_COMMIT}
-      build-number: ${BUILD_NUMBER}
-      stateful: "false"
-    template:
-      metadata:
-        name: ${APPLICATION_NAME}
-        labels:
-          application-name: ${APPLICATION_NAME}
-          git-commit: ${GIT_COMMIT}
-          build-number: ${BUILD_NUMBER}
-          stateful: "false"
-      spec:
-        containers:
-          - name: nginx
-            image: >-
-              172.30.1.1:5000/my-project/nginx-static-app:${GIT_COMMIT}
-            ports:
-              - containerPort: 8080
-                protocol: TCP
-            env:
-              - name: BUILD_NUMBER
-                value: ${BUILD_NUMBER}
-            livenessProbe:
-              httpGet:
-                path: /
-                port: 8080
-            readinessProbe:
-              httpGet:
-                path: /
-                port: 8080
-
-        restartPolicy: Always
-        terminationGracePeriodSeconds: 30
-        dnsPolicy: ClusterFirst
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-static-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: nginx-static-app
+  template:
+    metadata:
+      labels:
+        app: nginx-static-app
+    spec:
+      containers:
+        - name: nginx
+          image: leprechaun/nginx-static-app:latest
+          ports:
+          - name: http
+            containerPort: 8080
