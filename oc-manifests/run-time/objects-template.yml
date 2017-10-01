@@ -3,7 +3,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: nginx-static-app
-  namespace: kube-system
   annotations:
     ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -26,7 +25,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: fluentd-forward
+  - name: http
     port: 80
     targetPort: 8080
     protocol: TCP
