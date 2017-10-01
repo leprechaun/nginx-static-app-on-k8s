@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: leprechaun/nginx-static-app:latest
+          image: leprechaun/nginx-static-app-on-k8s:latest
           ports:
           - name: http
             containerPort: 8080
