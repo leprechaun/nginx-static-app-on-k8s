@@ -13,7 +13,7 @@ pipelines:
         auto_update: true
         shallow_clone: true
       nginx:
-        pipeline: nginx-on-openshift
+        pipeline: nginx-on-openshift-build
         stage: build-image
 
     stages:
