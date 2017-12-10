@@ -1,4 +1,4 @@
-FROM leprechaun/nginx-on-k8s
+FROM registry.k8s.fscker.org:80/leprechaun/nginx-on-openshift
 
 ADD index.html /usr/share/nginx/html/index.html
 RUN sed -i -e "s/#DATE#/$(date)/g" /usr/share/nginx/html/index.html
