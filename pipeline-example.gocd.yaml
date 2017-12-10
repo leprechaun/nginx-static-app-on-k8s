@@ -23,6 +23,11 @@ pipelines:
                 docker build -t registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s \
                   --label git-commit=${GO_REVISION_GIT} \
                   --label git-repo=git@github.com/leprechaun/nginx-static-app-on-k8s \
+                  --label go-pipeline=${GO_PIPELINE_NAME} \
+                  --label go-pipeline-counter=${GO_PIPELINE_COUNTER} \
+                  --label go-pipeline-stage=${GO_STAGE_NAME} \
+                  --label go-pipeline-stage-counter=${GO_STAGE_COUNTER} \
+                  --label go-pipeline-job=${GO_JOB_NAME} \
                   .
             - script: |
                 docker push registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
