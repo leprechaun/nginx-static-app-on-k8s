@@ -12,6 +12,10 @@ pipelines:
         branch: master
         auto_update: true
         shallow_clone: true
+      nginx:
+        pipeline: nginx-on-openshift
+        stage: build-image
+
     stages:
       - build-image:
           tasks:
