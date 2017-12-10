@@ -19,19 +19,10 @@ pipelines:
     stages:
       - build-image:
           tasks:
-            - exec:
-                command: docker
-                arguments:
-                  - build
-                  - -t
-                  - registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
-                  - --label
-                  - git-commit=${GO_REVISION_GIT}
-                  - --label
-                  - git-repo=git@github.com/leprechaun/nginx-static-app-on-k8s
-                  - .
-            - exec:
-                command: docker
-                arguments:
-                  - push
-                  - registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
+            - script: |
+                docker build -t registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s \
+                  --label git-commit=${GO_REVISION_GIT} \
+                  --label git-repo=git@github.com/leprechaun/nginx-static-app-on-k8s \
+                  .
+            - script: |
+                docker push registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
