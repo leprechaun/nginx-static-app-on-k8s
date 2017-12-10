@@ -1,0 +1,29 @@
+pipelines:
+  nginx-static-app-build:
+    group: nginx-static-app
+    label_template: "${git[:8]}"
+    locking: "on"
+    timer:
+      spec: "* * * * * ? *"
+      only_on_changes: yes
+    materials:
+      git:
+        git: https://github.com/leprechaun/nginx-static-app-on-k8s.git
+        branch: master
+        auto_update: true
+        shallow_clone: true
+    stages:
+      - test-one:
+          tasks:
+            - exec:
+                command: docker
+                arguments:
+                  - build
+                  - -t
+                  - registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
+                  - .
+            - exec:
+                command: docker
+                arguments:
+                  - push
+                  - registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
