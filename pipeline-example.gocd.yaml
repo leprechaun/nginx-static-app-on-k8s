@@ -25,6 +25,8 @@ pipelines:
                   - build
                   - -t
                   - registry.k8s.fscker.org:80/leprechaun/nginx-static-app-on-k8s
+                  - -l
+                  - git-commit=${GO_REVISION_GIT},git-repo=git@github.com/leprechaun/nginx-static-app-on-k8s
                   - .
             - exec:
                 command: docker
